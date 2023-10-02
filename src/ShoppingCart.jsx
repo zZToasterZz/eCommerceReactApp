@@ -2,16 +2,20 @@ import React, { Component } from "react";
 import Product from "./Product";
 
 export default class ShoppingCart extends Component {
-  state = {
-    products: [
-      { id: 1, name: "ASUS ROG Motherboard", price: 15000, quantity: 0 },
-      { id: 2, name: "GSkill 16GB RAM", price: 20000, quantity: 0 },
-      { id: 3, name: "GTX 1080Ti", price: 83000, quantity: 0 },
-      { id: 4, name: "Noctua NF-F12", price: 8000, quantity: 0 },
-      { id: 5, name: "Corsair Full Tower case", price: 10000, quantity: 0 },
-      { id: 6, name: "Logitech G512", price: 10000, quantity: 0 },
-    ],
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      products: [
+        { id: 1, name: "ASUS ROG Motherboard", price: 15000, quantity: 0 },
+        { id: 2, name: "GSkill 16GB RAM", price: 20000, quantity: 0 },
+        { id: 3, name: "GTX 1080Ti", price: 83000, quantity: 0 },
+        { id: 4, name: "Noctua NF-F12", price: 8000, quantity: 0 },
+        { id: 5, name: "Corsair Full Tower case", price: 10000, quantity: 0 },
+        { id: 6, name: "Logitech G512", price: 10000, quantity: 0 },
+      ],
+    };
+  }
+
   render() {
     return (
       <>
@@ -31,11 +35,29 @@ export default class ShoppingCart extends Component {
     );
   }
 
+  componentDidMount() {
+    console.log("ComponentDidMount - Shopping Cart");
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log(
+      "componentDidUpdate - Shopping Cart",
+      prevProps,
+      prevState,
+      this.props,
+      this.state
+    );
+  }
+
+  componentWillUnmount() {
+    console.log("componentWillUnmount - Shopping Cart");
+  }
+
   renderProducts = (products) => {
-    return products.map((product, index) => {
+    return products.map((product) => {
       return (
         <Product
-          key={index}
+          key={product.id}
           product={product}
           handleIncrement={this.incrementProductQuantity}
           handleDecrement={this.decrementProductQuantity}
@@ -76,11 +98,10 @@ export default class ShoppingCart extends Component {
 
   deleteProduct = (product) => {
     let allProducts = [...this.state.products];
-
-    let filderedProducts = allProducts.filter((p) => product.id !== p.id);
-
-    this.setState({
-      products: filderedProducts,
-    });
+    let index = allProducts.indexOf(product);
+    if (window.confirm("Are you sure you want to delete ?")) {
+      allProducts.splice(index, 1);
+      this.setState({ products: allProducts });
+    }
   };
 }

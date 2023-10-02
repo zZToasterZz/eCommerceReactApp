@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 
 export default class Product extends Component {
-  state = {
-    product: this.props.product,
-    handleIncrement: this.props.handleIncrement,
-    handleDecrement: this.props.handleDecrement,
-    handleDelete: this.props.handleDelete,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      product: this.props.product,
+      handleIncrement: this.props.handleIncrement,
+      handleDecrement: this.props.handleDecrement,
+      handleDelete: this.props.handleDelete,
+    };
+  }
 
   render() {
     return (
@@ -62,5 +65,17 @@ export default class Product extends Component {
         </div>
       </>
     );
+  }
+
+  componentDidMount() {
+    console.log("ComponentDidMount - Product");
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log("componentDidUpdate - Product");
+  }
+
+  componentWillUnmount() {
+    console.log("componentWillUnmount - Product");
   }
 }
